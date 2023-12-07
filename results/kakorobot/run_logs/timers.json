@@ -1,0 +1,42 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1701952665",
+        "python_version": "3.7.16 (default, Jan 17 2023, 16:06:28) [MSC v.1916 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\Zolu\\.conda\\envs\\unity\\Scripts\\mlagents-learn ppo.yaml --run-id=kakorobot --resume --inference",
+        "mlagents_version": "0.28.0",
+        "mlagents_envs_version": "0.28.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "1.7.1+cu110",
+        "numpy_version": "1.21.6",
+        "end_time_seconds": "1701952673"
+    },
+    "total": 8.7346468,
+    "count": 1,
+    "self": 0.01363759999999914,
+    "children": {
+        "run_training.setup": {
+            "total": 0.1630212000000002,
+            "count": 1,
+            "self": 0.1630212000000002
+        },
+        "TrainerController.start_learning": {
+            "total": 8.557988,
+            "count": 1,
+            "self": 0.0005916000000016908,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 8.557394299999999,
+                    "count": 1,
+                    "self": 8.557394299999999
+                },
+                "trainer_threads": {
+                    "total": 2.099999999671809e-06,
+                    "count": 1,
+                    "self": 2.099999999671809e-06
+                }
+            }
+        }
+    }
+}
