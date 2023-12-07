@@ -8,7 +8,7 @@ using Unity.MLAgents.Sensors;
 
 public class CarAgent : Agent
 {
-    Rigidbody rigidbody;
+    //Rigidbody rigidbody;
     public Transform targetTransform;
 
     public override void CollectObservations(VectorSensor sensor)
@@ -23,31 +23,52 @@ public class CarAgent : Agent
         float moveZ = actions.ContinuousActions[1];
 
 
-        float moveSpeed = 1f;
+        float moveSpeed = 2.0f;
         transform.position += new Vector3(moveX, 0, moveZ)*Time.deltaTime*moveSpeed;
     }
 
     public override void OnEpisodeBegin()
     {
-        transform.position = new Vector3(4,1,1);
+        Debug.Log("new ep");
+        transform.position = new Vector3(18,1,11);
     }
 
-    private void OnTriggerEnter(Collider collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (collision.tag == "Wall"){
-            AddReward(-1);
-            EndEpisode();
-        }
-        else if (collision.tag == "Car") { 
+    Debug.Log("new collision");
+
+        if (collision.gameObject.CompareTag ("Car")) { 
+            Debug.Log("car");
             SetReward(-1);
             EndEpisode();
         }
-        else if (collision.tag == "PSpot") { 
+        else if (collision.gameObject.CompareTag ("PSpot")) { 
             SetReward(1);
+            Debug.Log("Good job :)");
+            StartCoroutine(WaitBeforeEndingEpisode(1f));
+        }
+        else if (collision.gameObject.CompareTag ("Helper")) { 
+            AddReward(0.5f);
+        }
+
+    }
+
+    IEnumerator WaitBeforeEndingEpisode(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+
+        EndEpisode();
+    }
+
+    void FixedUpdate() { 
+        if (this.transform.localPosition.y < 0)
+        {
+            SetReward(-1);
             EndEpisode();
         }
-        else if (this.transform.localPosition.y < 0)
+        else if (this.transform.localPosition.x > 22 || this.transform.localPosition.x < -1 || this.transform.localPosition.z < -1 || this.transform.localPosition.z > 22)
         {
+            SetReward(-1);
             EndEpisode();
         }
     }
@@ -57,15 +78,15 @@ public class CarAgent : Agent
         ActionSegment<float> actions = actionsOut.ContinuousActions;
 
         if (Input.GetKey("w"))
-            actions[0] = 1;
+            actions[1] = 1;
 
         if (Input.GetKey("s"))
-            actions[0] = -1;
+            actions[1] = -1;
 
         if (Input.GetKey("d"))
-            actions[1] = +1f;
+            actions[0] = +1;
 
         if (Input.GetKey("a"))
-            actions[1] = -1f;
+            actions[0] = -1;
     }
 }
